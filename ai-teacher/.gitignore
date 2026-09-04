@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.env
+uploads/*
+!uploads/.gitkeep
+static/generated/audio/*
+static/generated/video/*
+!static/generated/audio/.gitkeep
+!static/generated/video/.gitkeep
+.env
+.venv/
+__pycache__/
+*.pyc

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pathshala AI — Your Personal AI Teacher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">AI</span>
+    <span class="brand-name">Pathshala AI</span>
+  </div>
+  <div id="statusPill" class="status-pill">
+    <span class="dot"></span>
+    <span id="statusText">Checking AI engine…</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ SETUP ============ -->
+  <section id="setup" class="stage">
+    <div class="setup-wrap">
+      <div class="setup-intro">
+        <h1>Tell me what you'd like to learn, and I'll teach it properly.</h1>
+        <p>Upload material or just name a topic — I'll plan the class, explain it, question you along the way, and tell you exactly what to revise.</p>
+      </div>
+
+      <div class="roadmap" id="roadmapPreview">
+        <div class="roadmap-step"><span class="num">1</span> Understand you</div>
+        <div class="roadmap-step"><span class="num">2</span> Explain, piece by piece</div>
+        <div class="roadmap-step"><span class="num">3</span> Check understanding</div>
+        <div class="roadmap-step"><span class="num">4</span> Adapt to how you're doing</div>
+        <div class="roadmap-step"><span class="num">5</span> Assess &amp; recommend next steps</div>
+      </div>
+
+      <form id="setupForm" class="setup-card">
+        <div class="field-group">
+          <label for="topic">Topic to learn</label>
+          <input id="topic" name="topic" type="text" placeholder="e.g. Newton's Laws of Motion" autocomplete="off" />
+        </div>
+
+        <div class="field-group">
+          <label for="fileInput">Or upload material <span class="opt">(PDF, DOCX, PPTX, TXT — optional)</span></label>
+          <input id="fileInput" name="file" type="file" accept=".pdf,.docx,.pptx,.txt,.md" />
+          <p id="uploadStatus" class="hint"></p>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="level">Your level</label>
+            <select id="level">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="minutes">Time available</label>
+            <select id="minutes">
+              <option value="5">5 minutes</option>
+              <option value="20" selected>20 minutes</option>
+              <option value="60">60 minutes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="language">Teach in</label>
+            <select id="language">
+              <option>English</option>
+              <option>Hindi</option>
+              <option>Hinglish</option>
+              <option>Tamil</option>
+              <option>Telugu</option>
+              <option>Marathi</option>
+              <option>Bengali</option>
+              <option>Gujarati</option>
+              <option>Kannada</option>
+              <option>Malayalam</option>
+              <option>Punjabi</option>
+              <option>Urdu</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="style">Teaching style</label>
+            <select id="style">
+              <option value="simple with everyday examples">Simple, everyday examples</option>
+              <option value="exam-focused and concise">Exam-focused, concise</option>
+              <option value="deep and technical">Deep and technical</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" id="startBtn" class="btn-primary">Start the lesson</button>
+        <p id="setupError" class="error-text"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ LESSON STAGE ============ -->
+  <section id="lessonStage" class="stage hidden">
+    <div class="lesson-header">
+      <h2 id="lessonTitle">Lesson</h2>
+      <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      <span id="segmentCounter" class="segment-counter">—</span>
+    </div>
+
+    <div class="lesson-grid">
+      <div class="stage-panel">
+        <div class="video-pane">
+          <div id="videoLoading" class="video-loading">
+            <div class="spinner"></div>
+            <p id="videoLoadingText">Your AI tutor is preparing this part of the lesson…</p>
+          </div>
+          <video id="lessonVideo" class="hidden"></video>
+        </div>
+        <p id="mediaWarning" class="media-warning hidden"></p>
+        <div id="audioFallback" class="audio-fallback hidden">
+          <span>🔊</span>
+          <audio id="fallbackAudio" controls></audio>
+        </div>
+        <div id="visualNote" class="visual-note hidden">
+          <span class="tag" id="visualTag">VISUAL</span>
+          <span id="visualHintText"></span>
+        </div>
+      </div>
+
+      <div class="stage-panel tutor-panel">
+        <div id="tutorThread" class="tutor-thread"></div>
+
+        <div id="checkpointComposer" class="tutor-composer hidden">
+          <div class="composer-row">
+            <textarea id="checkpointAnswer" placeholder="Type your answer…"></textarea>
+          </div>
+          <div class="composer-actions">
+            <button id="submitCheckpoint" class="btn-primary">Submit answer</button>
+          </div>
+        </div>
+
+        <div class="tutor-composer">
+          <div class="composer-actions">
+            <button id="nextSegmentBtn" class="btn-primary hidden">Continue lesson →</button>
+            <button id="goToQuizBtn" class="btn-primary hidden">Take the final assessment →</button>
+          </div>
+          <div class="followup-row">
+            <input id="followupInput" type="text" placeholder="Ask a follow-up question anytime…" />
+            <button id="followupBtn" class="btn-ghost">Ask</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ (one question at a time) ============ -->
+  <section id="quizStage" class="stage hidden">
+    <div class="quiz-shell">
+      <div class="quiz-progress">
+        <h2 style="margin:0;">Final assessment</h2>
+        <span id="quizProgressText">Question 1 of 1</span>
+      </div>
+      <div class="progress-track" style="margin-bottom: 18px;"><div id="quizProgressFill" class="progress-fill"></div></div>
+      <div id="quizCard" class="quiz-card"></div>
+      <div class="quiz-nav">
+        <button id="quizPrevBtn" class="btn-ghost">← Back</button>
+        <button id="quizNextBtn" class="btn-primary">Next →</button>
+        <button id="submitQuizBtn" class="btn-primary hidden">Submit assessment</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REPORT DASHBOARD ============ -->
+  <section id="reportStage" class="stage hidden">
+    <div class="report-shell">
+      <div class="report-hero">
+        <div class="score-donut-wrap">
+          <canvas id="scoreDonut"></canvas>
+          <div class="score-donut-label">
+            <span class="num" id="scoreValue">0%</span>
+            <span class="lbl">overall score</span>
+          </div>
+        </div>
+        <div class="report-summary">
+          <h2 id="reportTopic">Topic</h2>
+          <p id="reportCounts">—</p>
+        </div>
+      </div>
+
+      <div class="report-grid">
+        <div class="report-panel">
+          <h4>Strong areas</h4>
+          <div id="strongAreas" class="tag-list"></div>
+        </div>
+        <div class="report-panel">
+          <h4>Needs improvement</h4>
+          <div id="weakAreas" class="tag-list"></div>
+        </div>
+      </div>
+
+      <div class="report-panel chart-panel">
+        <h4>Question-by-question performance</h4>
+        <canvas id="historyChart" height="60"></canvas>
+      </div>
+
+      <div class="recommendation-card">
+        <span class="icon">🎯</span>
+        <p><strong>Recommended next step:</strong> <span id="recommendation"></span></p>
+      </div>
+
+      <button id="restartBtn" class="btn-secondary">Start a new lesson</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Built for the AI Innovation Hackathon 2026 — AI Teacher challenge.</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
