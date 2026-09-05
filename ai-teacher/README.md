@@ -1,147 +1,876 @@
 # Pathshala AI — AI Teacher
 
-A human-like AI teacher that turns any topic or uploaded document (PDF, DOCX,
-PPTX, TXT) into a personalized, spoken, avatar-led video lesson — with
-checkpoint questions, misconception detection, adaptive re-teaching, a final
-quiz, and a learning report.
+> **An AI Teacher that teaches, asks, evaluates, adapts, and helps students learn — instead of simply answering questions.**
 
-Built for the **AI Innovation Hackathon 2026 — "AI Teacher" challenge**.
+Pathshala AI is an AI-powered virtual teacher built for the **AI Innovation Hackathon 2026 – AI Teacher Challenge**.
+
+It can take a topic directly from a student or learn from uploaded educational material such as PDF, DOCX, PPTX and TXT files. Based on the student's level, available time, language and preferred teaching style, it creates a structured lesson and delivers it through an AI teaching video with voice and an animated teacher.
+
+The system then interacts with the student through checkpoint questions, evaluates their responses, identifies possible misconceptions, re-explains difficult concepts and provides a final assessment and learning report.
 
 ---
 
-## 1. What's inside
+## 🚀 Try Pathshala AI
 
-```
+### Live Demo
+
+**Live Application:** `PASTE_YOUR_DEPLOYED_LINK_HERE`
+
+### Demo Video
+
+**Demo Video:** `PASTE_YOUR_DEMO_VIDEO_LINK_HERE`
+
+The demo shows the complete learning flow:
+
+**Topic / Upload → Lesson Planning → AI Teaching Video → Student Interaction → Evaluation → Adaptation → Final Assessment → Learning Report**
+
+---
+
+# 1. Problem
+
+Most digital learning platforms either provide pre-recorded lectures or chatbot-style question answering.
+
+The problem is that these systems generally do not behave like an actual teacher.
+
+A real teacher:
+
+- Understands the learner's level
+- Plans what should be taught
+- Explains concepts progressively
+- Uses examples
+- Asks questions
+- Checks understanding
+- Identifies misconceptions
+- Re-explains difficult concepts
+- Adjusts the difficulty
+- Gives feedback
+- Suggests what to learn next
+
+Pathshala AI is designed around this teaching process rather than treating education as simple question answering.
+
+---
+
+# 2. Our Solution
+
+Pathshala AI follows a teacher-like learning loop:
+
+```text
+Understand
+    ↓
+Plan
+    ↓
+Explain
+    ↓
+Question
+    ↓
+Evaluate
+    ↓
+Adapt
+    ↓
+Continue
+A student can either:
+
+Enter a topic directly, or
+Upload their own learning material.
+
+The student can also specify:
+
+Learning level
+Available learning time
+Preferred language
+Teaching style
+
+The AI then generates a structured lesson and teaches it segment by segment.
+
+After selected segments, the student receives checkpoint questions. Their answers are evaluated and the teaching can adapt based on the result.
+
+3. Key Features
+📚 Learn From Uploaded Material
+
+Pathshala AI supports:
+
+PDF
+DOCX
+PPTX
+TXT
+
+The uploaded material is processed and converted into searchable text chunks.
+
+Relevant content is retrieved when generating a lesson so that document-based teaching can remain grounded in the student's material.
+
+🎯 Topic-Based Teaching
+
+Students do not need to upload a document.
+
+They can simply enter a topic such as:
+
+Teach me Newton's Laws from the beginning.
+
+The AI creates a structured lesson according to the selected learner level, time and teaching preferences.
+
+🧠 Personalized Lesson Planning
+
+The student can select:
+
+Parameter	Example
+Learning Level	Beginner / Intermediate / Advanced
+Available Time	5 / 20 / 60 minutes
+Language	English / Hindi / Hinglish / etc.
+Teaching Style	Simple explanations with examples
+
+These inputs are used when generating the lesson structure and explanations.
+
+🎥 AI Teaching Video
+
+Each lesson segment is converted into a teaching experience containing:
+
+AI-generated explanation
+Text-to-speech narration
+Animated teacher/avatar
+Captions
+Topic heading
+Example
+Visual indication/suggestion
+
+The current implementation uses a programmatically rendered animated teacher rather than a photorealistic avatar.
+
+❓ Interactive Checkpoints
+
+Pathshala AI does not continuously deliver a lecture.
+
+Questions are inserted into the lesson so that the student can demonstrate their understanding.
+
+Supported question styles include:
+
+Multiple choice
+Short answer
+Conceptual questions
+
+The student's response becomes part of the teaching process.
+
+🔍 Misconception Detection
+
+When a student gives an incorrect or incomplete response, the system does more than simply mark it wrong.
+
+The AI evaluates the response and attempts to identify the underlying misconception.
+
+For example:
+
+Question
+   ↓
+Student Answer
+   ↓
+AI Evaluation
+   ↓
+Correct / Incorrect
+   ↓
+Possible Misconception
+   ↓
+Feedback
+   ↓
+Re-explanation
+🔄 Adaptive Teaching
+
+If the student struggles with a concept, the system can:
+
+Identify the misunderstanding
+Give constructive feedback
+Provide a fresh explanation
+Use another angle or analogy
+Adjust the difficulty
+Continue the lesson after the interaction
+
+The evaluation system can return one of:
+
+easier
+same
+harder
+
+This creates the core adaptive teaching loop.
+
+💬 Follow-up Questions
+
+Students can ask questions while the lesson is in progress.
+
+The system uses the lesson content already taught during the current session to answer follow-up questions while maintaining the context of the lesson.
+
+📝 Final Assessment
+
+After the lesson, Pathshala AI generates a final assessment based on the lesson objectives and covered concepts.
+
+The assessment can contain:
+
+MCQs
+Short-answer questions
+
+The student's responses are evaluated and combined with checkpoint performance.
+
+📊 Learning Report
+
+After assessment, the system generates a learning report containing:
+
+Final score
+Correct answers
+Total questions
+Strong areas
+Weak areas
+Misconceptions
+Revision recommendation
+Question-by-question performance history
+
+Example:
+
+Topic: Newton's Laws
+
+Score: 80%
+
+Strong Areas:
+- First Law
+- Inertia
+
+Needs Improvement:
+- Second Law
+- Force calculations
+
+Recommendation:
+Revise the identified weak concept before moving
+to the next topic.
+4. How the System Works
+Step 1 — Student Input
+
+The student provides:
+
+Topic
++
+Level
++
+Available Time
++
+Language
++
+Teaching Style
+
+or uploads educational material.
+
+Step 2 — Document Processing
+
+For uploaded material:
+
+PDF / DOCX / PPTX / TXT
+          ↓
+     Text Extraction
+          ↓
+       Chunking
+          ↓
+      RAG Index
+
+The system extracts text from the uploaded file and divides it into chunks.
+
+Step 3 — Knowledge Retrieval
+
+The current implementation uses:
+
+TF-IDF + Cosine Similarity
+
+Relevant chunks are retrieved based on the requested topic.
+
+Student Topic
+     ↓
+TF-IDF Query
+     ↓
+Similarity Search
+     ↓
+Top Relevant Chunks
+     ↓
+LLM Context
+
+This provides knowledge grounding for document-based lessons.
+
+Step 4 — Lesson Generation
+
+The LLM receives:
+
+Topic
+Learner level
+Available time
+Language
+Teaching style
+Retrieved document context, when available
+
+It generates a structured lesson containing:
+
+Lesson Title
+Learning Objectives
+Lesson Segments
+Explanations
+Examples
+Visual Suggestions
+Checkpoint Questions
+Final Assessment
+Step 5 — Teaching Video Generation
+
+For each lesson segment:
+
+Lesson Explanation
+       ↓
+Text-to-Speech
+       ↓
+Audio
+       ↓
+Caption Timing
+       ↓
+Animated Teacher + Visual Layer
+       ↓
+Teaching Video
+
+The generated video is presented to the student before the checkpoint interaction.
+
+Step 6 — Student Evaluation
+
+After a checkpoint question:
+
+Student Answer
+      ↓
+AI Evaluation
+      ↓
+Correct?
+   ↙       ↘
+ Yes       No
+  ↓         ↓
+Continue   Diagnose
+             ↓
+        Re-explanation
+             ↓
+       Difficulty Update
+             ↓
+          Continue
+Step 7 — Final Assessment
+
+After completing the lesson:
+
+Final Quiz
+    ↓
+Answer Evaluation
+    ↓
+Score Calculation
+    ↓
+Learning Report
+5. System Architecture
+                         ┌───────────────┐
+                         │    STUDENT    │
+                         └───────┬───────┘
+                                 │
+                   ┌─────────────┴─────────────┐
+                   │                           │
+                   ▼                           ▼
+             Enter Topic                Upload Material
+                                               │
+                                               ▼
+                                      ┌─────────────────┐
+                                      │ Document Parser │
+                                      └────────┬────────┘
+                                               │
+                                               ▼
+                                      ┌─────────────────┐
+                                      │ Text Chunking   │
+                                      └────────┬────────┘
+                                               │
+                                               ▼
+                                      ┌─────────────────┐
+                                      │ TF-IDF RAG      │
+                                      │ Retrieval       │
+                                      └────────┬────────┘
+                                               │
+                   ┌───────────────────────────┘
+                   │
+                   ▼
+          ┌────────────────────┐
+          │   Groq LLM         │
+          │ Lesson Planning    │
+          │ Evaluation         │
+          │ Adaptation         │
+          └─────────┬──────────┘
+                    │
+                    ▼
+          ┌────────────────────┐
+          │ Structured Lesson  │
+          │ Plan               │
+          └─────────┬──────────┘
+                    │
+                    ▼
+          ┌────────────────────┐
+          │ Teaching Engine    │
+          └─────────┬──────────┘
+                    │
+          ┌─────────┴─────────┐
+          │                   │
+          ▼                   ▼
+     Text-to-Speech     Video Renderer
+          │                   │
+          └─────────┬─────────┘
+                    ▼
+             Teaching Video
+                    │
+                    ▼
+           Checkpoint Question
+                    │
+                    ▼
+             Student Answer
+                    │
+                    ▼
+          ┌────────────────────┐
+          │ AI Evaluation      │
+          │ + Misconception    │
+          │ Detection          │
+          └─────────┬──────────┘
+                    │
+             ┌──────┴──────┐
+             │             │
+          Understood     Struggling
+             │             │
+             ▼             ▼
+          Continue     Re-explain
+                           │
+                           ▼
+                       Continue
+                           │
+                           ▼
+                   Final Assessment
+                           │
+                           ▼
+                    Learning Report
+6. AI / ML Stack
+Component	Technology
+Backend	Flask
+LLM	Groq API
+Lesson Planning	LLM-based structured generation
+Answer Evaluation	LLM-based evaluation
+Misconception Detection	LLM-based evaluation
+Knowledge Grounding	TF-IDF + Cosine Similarity
+Document Processing	PyPDF2, python-docx, python-pptx
+Text-to-Speech	gTTS
+Optional Voice	ElevenLabs
+Video Generation	MoviePy + Pillow
+Frontend	HTML, CSS, JavaScript
+ML Utilities	Scikit-learn
+7. RAG Implementation
+
+Pathshala AI currently uses a lightweight TF-IDF based retrieval approach.
+
+Pipeline
+Uploaded Document
+       ↓
+Text Extraction
+       ↓
+Text Chunking
+       ↓
+TF-IDF Vectorization
+       ↓
+Cosine Similarity
+       ↓
+Top Relevant Chunks
+       ↓
+LLM Lesson Generation
+
+This approach keeps the prototype lightweight while providing actual retrieval-based grounding for uploaded material.
+
+The retrieved context is passed to the lesson-generation model so that document-based lessons can use information from the student's material.
+
+8. LLM / Prompt Architecture
+
+The LLM is used for different stages of the teaching process.
+
+Lesson Planning
+
+The model receives:
+
+Topic
+Learner Level
+Available Time
+Teaching Language
+Teaching Style
+Retrieved Context
+
+It returns a structured lesson plan containing segments, explanations, examples, visuals and questions.
+
+Answer Evaluation
+
+The model receives:
+
+Question
+Student Answer
+Relevant Lesson Context
+Teaching Language
+
+It returns:
+
+Correct / Incorrect
+Misconception
+Feedback
+Re-explanation
+Difficulty Adjustment
+Follow-up Questions
+
+The model receives:
+
+Lesson Context
++
+Student Follow-up Question
+
+and generates a context-aware answer.
+
+9. Personalization
+
+Pathshala AI personalizes the lesson using four main inputs:
+
+Learner Level
+Beginner
+Intermediate
+Advanced
+Available Time
+
+The lesson structure changes according to the selected duration.
+
+Short sessions focus on the most important concepts, while longer sessions can include more explanations, examples and assessment.
+
+Language
+
+The student can select the teaching language.
+
+The current TTS layer includes mappings for:
+
+English
+Hindi
+Hinglish
+Tamil
+Telugu
+Marathi
+Bengali
+Gujarati
+Kannada
+Malayalam
+Punjabi
+Urdu
+Spanish
+French
+Teaching Style
+
+The student can specify the preferred teaching approach, such as simple explanations with examples.
+
+10. Teaching Interaction
+
+The application is designed around the following interaction:
+
+Teacher Explains
+       ↓
+Teacher Asks
+       ↓
+Student Answers
+       ↓
+Teacher Evaluates
+       ↓
+Teacher Identifies Difficulty
+       ↓
+Teacher Re-explains if Required
+       ↓
+Teacher Continues
+
+This is the main difference between Pathshala AI and a conventional educational chatbot.
+
+11. Project Structure
 ai-teacher/
-├── app.py                     Flask backend / API routes
+│
+├── app.py
 ├── requirements.txt
-├── .env.example                Copy to .env and paste your API keys
+├── .env.example
+├── .gitignore
+│
 ├── modules/
-│   ├── document_processor.py   Extracts text from PDF/DOCX/PPTX/TXT
-│   ├── rag_engine.py           TF-IDF based retrieval (knowledge grounding)
-│   ├── llm_engine.py           Lesson planning, evaluation, adaptation (Groq)
-│   ├── tts_engine.py           Text-to-speech (gTTS free / ElevenLabs optional)
-│   ├── video_generator.py      Renders the talking-avatar teaching video
-│   └── quiz_engine.py          MCQ grading helper
-├── templates/index.html         Single-page frontend
-├── static/css/style.css
-├── static/js/main.js
-├── uploads/                     Uploaded learning material (runtime)
-└── static/generated/            Generated audio/video (runtime)
-```
+│   ├── __init__.py
+│   ├── document_processor.py
+│   ├── rag_engine.py
+│   ├── llm_engine.py
+│   ├── tts_engine.py
+│   ├── video_generator.py
+│   └── quiz_engine.py
+│
+├── templates/
+│   └── index.html
+│
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   └── generated/
+│       ├── audio/
+│       └── video/
+│
+└── uploads/
+12. API Flow
 
-## 2. How it maps to the assessment's Understand → Plan → Explain →
-Question → Evaluate → Adapt loop
+The Flask backend exposes the main application flow through API endpoints.
 
-| Step | Where it happens |
-|---|---|
-| Understand | `/api/upload` (RAG indexing) + the level/time/language/style form |
-| Plan | `llm_engine.generate_lesson_plan()` → structured JSON lesson |
-| Explain | `tts_engine` + `video_generator` render each segment as a video |
-| Question | Each segment carries a `checkpoint_question` |
-| Evaluate | `llm_engine.evaluate_answer()` detects the specific misconception |
-| Adapt | A fresh re-explanation + difficulty adjustment is returned and shown |
-| Continue | `/api/segment_media` advances through segments, then `/api/final_quiz` |
+Endpoint	Purpose
+/api/status	Check application/AI status
+/api/upload	Upload and process learning material
+/api/create_lesson	Generate personalized lesson
+/api/segment_media	Generate lesson audio/video
+/api/checkpoint	Evaluate checkpoint answer
+/api/followup	Answer follow-up question
+/api/final_quiz	Retrieve final assessment
+/api/submit_quiz	Submit assessment and generate report
+13. Installation
+Requirements
+Python 3.10+
+Internet connection for gTTS
+Groq API key for full AI-powered lesson generation
+Clone the Repository
+git clone https://github.com/pyharshcodes/ai-teacher01.git
 
+Enter the project:
 
-## 3. Setup
-
-```bash
-cd ai-teacher
+cd ai-teacher01/ai-teacher
+Create Virtual Environment
+Windows
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+venv\Scripts\activate
+Linux / macOS
+python -m venv venv
+source venv/bin/activate
+Install Dependencies
 pip install -r requirements.txt
-cp .env.example .env
-```
+14. Environment Variables
 
-Open `.env` and paste your keys:
+Create a .env file in the ai-teacher directory.
 
-```
-GROQ_API_KEY=your_key_here          # required for real lesson generation
-ELEVENLABS_API_KEY=                 # optional, better voice
-```
+GROQ_API_KEY=your_groq_api_key
 
-Get a **free** Groq key (no card needed) at https://console.groq.com — this
-powers lesson planning, misconception detection, and adaptive teaching.
+Optional:
 
-**No key? The app still runs.** Without `GROQ_API_KEY` it automatically
-switches to `LOCAL_MODE`: a rule-based lesson planner and evaluator keep the
-whole flow (upload → lesson → video → checkpoint → quiz → report) working
-end-to-end, so a demo never breaks — it just teaches less richly.
+GROQ_MODEL=your_groq_model
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+FLASK_SECRET_KEY=your_secret_key
 
-## 4. Run
+The .env.example file is included in the repository.
 
-```bash
+Do not commit your real API keys to GitHub.
+
+15. Run the Application
+
+Start the Flask server:
+
 python app.py
-```
 
-Open **http://localhost:5000**
+Open:
 
-## 5. Using it
+http://localhost:5000
+16. How to Use
+Step 1
 
-1. Type a topic (or upload a PDF/DOCX/PPTX and then type the chapter/topic
-   you want taught — the app will ground the lesson in your material).
-2. Choose your level, time available, language, and teaching style.
-3. Click **Start the lesson** — the AI plans a multi-segment lesson and
-   renders the first segment as a video with a talking avatar and captions.
-4. Answer the checkpoint question after each segment — the AI detects
-   misconceptions and re-explains before moving on.
-5. Ask follow-up questions any time during the lesson.
-6. After the last segment, take the final assessment.
-7. Get a learning report: score, strong areas, weak areas, and what to
-   revise next.
+Enter a topic or upload learning material.
 
-## 6. Swapping in premium APIs later
+Step 2
 
-- **Better voice** — add `ELEVENLABS_API_KEY` in `.env`. `tts_engine.py`
-  automatically prefers it over the free gTTS fallback.
-- **Photorealistic avatar video** — add `HEYGEN_API_KEY` or `DID_API_KEY` in
-  `.env`, then implement the stub functions `_render_with_heygen()` /
-  `_render_with_did()` at the bottom of `modules/video_generator.py` and
-  call one of them from `render_lesson_video()` instead of the local
-  PIL/moviepy renderer. Nothing else in the app needs to change.
-- **Semantic RAG** — `modules/rag_engine.py` currently uses TF-IDF for
-  speed and zero-dependency-risk. Swap `TfidfVectorizer` for a
-  `sentence-transformers` embedding model + a vector DB (e.g. ChromaDB) if
-  you want semantic (not just keyword) retrieval.
+Select:
 
-## 7. Known limitations (be upfront about these in your documentation)
+Level
+Available time
+Language
+Teaching style
+Step 3
 
-- The built-in avatar is a clean, programmatically-animated illustration
-  (not a photorealistic video-generated face) — this keeps the whole
-  pipeline free and dependency-light. Swap in HeyGen/D-ID for
-  photorealism (see above).
-- RAG uses TF-IDF keyword relevance rather than deep semantic embeddings.
-- Lesson state is kept in-memory per Flask process — fine for a demo,
-  swap for a database for multi-user production use.
-- gTTS requires an internet connection at generation time (it calls
-  Google's TTS endpoint); fully offline speech would need a local TTS
-  model such as Coqui TTS.
+Start the lesson.
 
-## 8. Troubleshooting
+The AI generates a structured lesson plan.
 
-- **`groq.NotFoundError: model_not_found` / "The model ... does not
-  exist"** — Groq periodically retires older models. This project defaults
-  to `openai/gpt-oss-120b`. If that ever gets deprecated too, check
-  https://console.groq.com/docs/models for the current production model
-  list and set `GROQ_MODEL=<new-model-id>` in your `.env` file, then
-  restart `python app.py`.
+Step 4
 
-- **`pip install` fails trying to build numpy/scipy from source (e.g. "NumPy
-  requires GCC >= 8.4" on Windows)** — this happens when pip can't find a
-  prebuilt wheel for your exact Python version and tries to compile from
-  source. `requirements.txt` already uses minimum-version constraints
-  (`numpy>=1.26`, not `numpy==1.26.4`) specifically to avoid this — make sure
-  you're installing from the `requirements.txt` included in this zip. If it
-  still happens, upgrade pip first (`python -m pip install --upgrade pip`)
-  and try again; very new Python releases sometimes need a few weeks before
-  every package has wheels published for them.
+Watch the generated teaching segment.
 
-- **`moviepy`/ffmpeg errors on first run** — moviepy needs `ffmpeg`; the
-  `imageio-ffmpeg` package (already in `requirements.txt`) auto-downloads a
-  bundled ffmpeg binary the first time you render a video, so make sure you
-  have an internet connection the first time you run a lesson.
-- **gTTS "no internet" error** — gTTS calls Google's servers; check your
-  connection, or add an `ELEVENLABS_API_KEY` instead.
-- **Lesson feels generic** — add `GROQ_API_KEY`; local/offline mode uses a
-  simple template so the demo never crashes without a key.
+The lesson contains voice narration, an animated teacher and captions.
+
+Step 5
+
+Answer the checkpoint question.
+
+Step 6
+
+The AI evaluates the response.
+
+If required, it provides a different explanation and adjusts the difficulty.
+
+Step 7
+
+Continue through the remaining lesson segments.
+
+Step 8
+
+Complete the final assessment.
+
+Step 9
+
+View the learning report and recommended revision areas.
+
+17. Deployment
+
+Pathshala AI is implemented as a Flask web application and can be deployed on a Python-compatible hosting platform.
+
+For deployment:
+
+Upload/push the project repository.
+Install dependencies from requirements.txt.
+Configure environment variables.
+Start the Flask application using the platform's Python web-service configuration.
+Verify that generated media directories have write access.
+Important
+
+API keys should be configured as deployment environment variables rather than hard-coded into the source code.
+
+18. Current Limitations
+
+This is a hackathon prototype, so there are some known limitations.
+
+RAG
+
+The current retrieval system uses TF-IDF rather than neural embeddings.
+
+Avatar
+
+The current teacher is a programmatically animated avatar rather than a photorealistic AI-generated human.
+
+Session Storage
+
+Lesson state is currently maintained in memory for the running Flask process.
+
+Text-to-Speech
+
+The default gTTS implementation requires an internet connection.
+
+Production Scale
+
+The current architecture is optimized for a functional prototype and demonstration rather than large-scale multi-user deployment.
+
+19. Future Improvements
+
+The architecture can be extended with:
+
+Semantic embedding-based RAG
+Vector database
+Persistent student profiles
+Long-term learning history
+Real-time conversational teaching
+More advanced subject-specific visuals
+Photorealistic AI teacher avatars
+Personalized study plans
+Revision mode
+Exam preparation mode
+Flashcard generation
+Learning analytics
+Persistent progress tracking
+More advanced adaptive learning strategies
+20. Why Pathshala AI?
+
+A conventional chatbot:
+
+Student → Question → Answer
+
+Pathshala AI:
+
+Student
+   ↓
+Understand
+   ↓
+Plan
+   ↓
+Explain
+   ↓
+Question
+   ↓
+Evaluate
+   ↓
+Detect Misconception
+   ↓
+Adapt
+   ↓
+Continue
+   ↓
+Assess
+   ↓
+Recommend
+
+The focus is not simply generating educational content.
+
+The focus is creating a teaching loop where student performance can influence what the AI teaches next.
+
+21. Hackathon Requirements Coverage
+Challenge Requirement	Pathshala AI
+Uploaded learning material	✅
+Topic-based teaching	✅
+AI-generated lesson structure	✅
+Personalized teaching	✅
+Human-like teaching interaction	✅
+Video-based teaching	✅
+AI voice	✅
+AI teacher/avatar	✅
+Multilingual teaching	✅
+Student questioning	✅
+Student assessment	✅
+Misconception detection	✅
+Adaptive response	✅
+Follow-up questions	✅
+Learning report	✅
+Working web application	✅
+22. Technology Disclosure
+Third-Party APIs / Services
+
+Groq API
+
+Used for:
+
+Lesson planning
+Student answer evaluation
+Misconception detection
+Adaptive feedback
+Follow-up question answering
+
+Google Text-to-Speech (gTTS)
+
+Used for generating narrated lesson audio.
+
+ElevenLabs
+
+Supported as an optional text-to-speech provider.
+
+Open-Source / Python Libraries
+Flask
+Scikit-learn
+PyPDF2
+python-docx
+python-pptx
+MoviePy
+Pillow
+NumPy
+python-dotenv
+gTTS
+23. Repository
+
+GitHub Repository:
+
+https://github.com/pyharshcodes/ai-teacher01
+
+24. Demo
+
+Live Application:
+
+https://ai-teacher-pathshala.onrender.com
+
+Demo Video:
+
+PASTE_YOUR_DEMO_VIDEO_LINK_HERE
+
+25. CodeNova
+
+Project: Pathshala AI — AI Teacher
+
+Hackathon: AI Innovation Hackathon 2026
