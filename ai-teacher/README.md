@@ -43,39 +43,6 @@ Question → Evaluate → Adapt loop
 | Adapt | A fresh re-explanation + difficulty adjustment is returned and shown |
 | Continue | `/api/segment_media` advances through segments, then `/api/final_quiz` |
 
-## 2.5 What changed in this revision (read this if you saw the old paper-style UI)
-
-This build fixes four concrete problems reported against the previous version:
-
-1. **"AI doesn't work even with a key set"** — the exported ZIP never contained
-   your real `.env` (it's excluded by `.gitignore`, correctly, so secrets don't
-   leak) — only the blank `.env.example` template. If the app ever falls back
-   to offline/template mode, it is now **impossible to miss**: check the status
-   pill top-right of the page, or `GET /api/status`, which reports whether a
-   key was found, which model is configured, and the exact last error Groq
-   returned (invalid key, wrong model name, rate limit, etc.) — no more
-   guessing.
-2. **UI looked like paper** — the cream "notebook leaf" background and serif
-   typography are gone. The whole app is now a dark, modern dashboard
-   (Sora/Inter type, no cream surfaces anywhere), and the final report is a
-   real performance dashboard, not a printed-looking card.
-3. **Only 3–4 questions, then a result** — `llm_engine.num_questions_for()`
-   now scales the final assessment with session length and level (4–15
-   questions) instead of a hardcoded count, and the quiz UI presents them one
-   at a time with a progress bar.
-4. **No working chart, audio sometimes silent** — the report now renders two
-   real Chart.js charts (score, and a question-by-question correct/incorrect
-   bar chart) built from actual grading results, never fake numbers. Audio
-   and video are generated as two independent steps: if video rendering
-   fails (e.g. `ffmpeg` isn't available), the lesson degrades to a labelled
-   audio-only player instead of a dead segment, and the video element always
-   shows visible controls so blocked-autoplay never means "no audio button".
-
-**Note on testing:** this revision was built and route-tested (Flask test
-client + fallback/offline logic) in a sandboxed environment with no internet
-access, so live `gTTS`/Groq API calls could not be exercised end-to-end here.
-Please do a full run on your machine with a real `GROQ_API_KEY` and internet
-access, and check `/api/status` immediately after starting the server.
 
 ## 3. Setup
 
